@@ -1,0 +1,23 @@
+<resources>
+    <style name="AppTheme" parent="AppTheme.Base">
+
+    </style>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Blue</item>
+        <item name="colorPrimaryDark">@color/Blue700</item>
+        <item name="colorAccent">@color/Red</item>
+        <item name="android:textAppearanceMedium">@color/cherry</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="AppTheme.Base">
+        <item name="android:background">@color/background_material_dark</item>
+        <item name="android:textAppearanceLarge">@color/Blue700</item>
+        <item name="android:textColor">@color/Teal</item>
+        <item name="android:editTextColor">@color/Blue</item>
+        <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:textColorSecondary">@color/pink</item>
+        <item name="android:colorForeground">@color/Red</item>
+        <item name="android:textAppearanceSmall">@color/cyan</item>
+    </style>
+</resources>

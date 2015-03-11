@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="add"
+        app:showAsAction="ifRoom" />
+    <!-- Settings, should always be in the overflow -->
+<!--    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />-->
+
+    <item android:title="Sort"
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@+id/SortColor"
+                android:title="Colour"
+                app:showAsAction="never"/>
+            <item android:id="@+id/SortDate"
+                android:title="Date"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+</menu>

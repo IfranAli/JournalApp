@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/bookviewLayout"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
+    android:background="@color/background_material_light">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        style="@style/Nav_TopBar">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/FL_buttton"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="NEW BOOK"
+                android:id="@+id/textView"
+                android:textSize="15dp"
+                android:textColor="@color/Red"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/FL_button_settings"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="SETTINGS"
+                android:id="@+id/textView_settings"
+                android:textSize="15dp"
+                android:textColor="@color/Red"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:id="@+id/BookList_Layout"
+        android:layout_weight="1">
+
+    </LinearLayout>
+
+</LinearLayout>

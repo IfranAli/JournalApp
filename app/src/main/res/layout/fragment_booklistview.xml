@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.MainActivity">
+
+    <ListView
+        tools:listitem="@layout/item_layout_book"
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:headerDividersEnabled="false"
+        android:footerDividersEnabled="false"
+        android:drawSelectorOnTop="false"
+        android:focusable="false"
+        android:longClickable="false"
+        android:theme="@style/AppTheme"
+        android:dividerHeight="-1dp"
+        android:layout_gravity="right" />
+</LinearLayout>

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tehpanda.dragoneon.journal.View.EditFragment"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:padding="10dp">
+    <!--android:id="@+id/"-->
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Please load a Note."
+        android:id="@+id/Edit_NotLoaded"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_weight="0"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/Edit_Editor"
+        android:layout_weight="1">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTitle"
+            android:layout_gravity="center"
+            android:hint="Title"
+            android:singleLine="true"
+            android:text="Title here"
+            android:typeface="serif"
+            android:editable="true"
+            android:enabled="true"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="center_vertical|top"
+            android:inputType="textMultiLine"
+            android:text="The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog."
+            android:layout_gravity="center_horizontal|top"
+            android:hint="Entry"
+            android:layout_margin="0dp"
+            android:linksClickable="false"
+            android:typeface="sans"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-light" />
+    </LinearLayout>
+
+</LinearLayout>

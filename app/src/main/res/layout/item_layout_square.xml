@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="88dp"
+    android:baselineAligned="false"
+    android:clickable="false"
+    android:gravity="center"
+    tools:context=".View.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/Graphics_DateBox"
+        android:orientation="vertical"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="false"
+        android:background="@drawable/square"
+        android:baselineAligned="false"
+        android:weightSum="1"
+        android:layout_marginRight="12dp"
+        android:gravity="center"
+        android:padding="0dp"
+        android:layout_marginLeft="12dp">
+
+        <TextView
+            android:id="@+id/item_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9"
+            android:singleLine="true"
+            android:focusableInTouchMode="false"
+            android:textIsSelectable="false"
+            android:textSize="16sp"
+            android:gravity="center|bottom"
+            android:typeface="normal"
+            android:enabled="true"
+            style="@style/textDate"
+            android:textColor="#D0FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jul"
+            android:singleLine="true"
+            android:gravity="center|top"
+            android:textSize="13sp"
+            android:typeface="normal"
+            style="@style/textDate"
+            android:textColor="#D0FFFFFF"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:id="@+id/bg"
+        android:paddingRight="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A sentence containing..."
+                android:id="@+id/title"
+                android:ellipsize="end"
+                style="@style/textHeader"
+                android:fontFamily="sans-serif-light" />
+
+            <TextView
+                android:id="@+id/time_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="11:53am"
+                android:singleLine="true"
+                android:autoText="false"
+                android:typeface="normal"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:fontFamily="sans-serif-light"
+                android:textSize="14sp"
+                style="@style/textContent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_preview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="The quick brown fox jumps over the lazy dog. Hello World! The quick brown fox jumps over the lazy dog.. again."
+            android:ellipsize="end"
+            android:lines="2"
+            android:fontFamily="sans-serif-light"
+            style="@style/textContent" />
+
+    </LinearLayout>
+
+</LinearLayout>

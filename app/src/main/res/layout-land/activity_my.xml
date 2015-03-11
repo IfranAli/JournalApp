@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+<android.support.v4.view.ViewPager
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="horizontal"
+android:layout_height="match_parent"
+android:layout_width="match_parent"
+android:id="@+id/pager">
+
+</android.support.v4.view.ViewPager>-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/app_bar"
+        android:id="@+id/app_bar"/>
+
+    <android.support.v4.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:id="@+id/layout_main_activity"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/pager">
+        </android.support.v4.view.ViewPager>
+
+        <fragment
+            android:id="@+id/fragment_navigation_Drawer"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:name="com.tehpanda.dragoneon.journal.View.Fragment_NavDrawer"
+            tools:layout="@layout/fragment_book_list" />
+
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>
