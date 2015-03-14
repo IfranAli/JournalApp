@@ -19,9 +19,6 @@ import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.JournalEntry;
 import com.tehpanda.dragoneon.journal.R;
 
-/**
- * Created by dragoneon on 13/07/14.
- */
 public class listViewFragment extends Fragment {;
     private ArrayAdapter<JournalEntry> adapter; // Adapter.
     private MainActivity mainActivity;
@@ -106,7 +103,7 @@ public class listViewFragment extends Fragment {;
         return view;
     }
 
-    public static int layout = R.layout.item_layout_card;
+    public int layout = R.layout.item_layout_card;
     // Set Item view Theme.
     public void SetTheme(int layout, boolean NoRefresh) {
         this.layout = layout;
@@ -157,6 +154,7 @@ public class listViewFragment extends Fragment {;
     //region context menu methods.
     void addItem(){
         _JournalController.addItem(currentBook, "", "");
+        adapter.sort(JournalEntry.ByDate);
         adapter.notifyDataSetChanged();
     }
     //endregion

@@ -1,21 +1,16 @@
 package com.tehpanda.dragoneon.journal.Model;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by dragoneon on 4/09/14.
- */
 public class Book {
     private final DataStorage dataStorage;
     private String FileName;
     private String BookName;
-    private final ArrayList<JournalEntry> entries = new ArrayList<JournalEntry>();
+    private final ArrayList<JournalEntry> entries = new ArrayList<>();
 
     //Todo: Clean up this class, fix constructor member initialization.
     //Todo: Check if fileName exists.
@@ -28,12 +23,12 @@ public class Book {
     // Ctor for restoring created Book from DB.
     public Book(String fileName, String bookName) {
         this.setFileName(fileName);
-        this.dataStorage = DataStorage.GetInstance();
         this.setBookName(bookName);
+        this.dataStorage = DataStorage.GetInstance();
     }
 
     public void AddEntry(String title, String data, String date){
-        entries.add(0,new JournalEntry(title, data, date));
+        entries.add(new JournalEntry(title, data, date));
     }
     public void Delete(int index){
         entries.remove(index);

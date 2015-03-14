@@ -1,7 +1,6 @@
 package com.tehpanda.dragoneon.journal.Model;
 
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import org.w3c.dom.Document;
@@ -11,7 +10,6 @@ import org.w3c.dom.NodeList;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,9 +19,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -119,7 +115,7 @@ public class DataStorage {
     }
 
     public ArrayList<JournalEntry> loadData(String fileName) throws FileNotFoundException{
-        ArrayList<JournalEntry> entries = new ArrayList<JournalEntry>();
+        ArrayList<JournalEntry> entries = new ArrayList<>();
         try {
             DocumentBuilderFactory dbFactory =  DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -149,7 +145,7 @@ public class DataStorage {
 
     // Load Book objects from Books.xml.
     public ArrayList<Book> GetBooks(){
-        ArrayList<Book> books = new ArrayList<Book>();
+        ArrayList<Book> books = new ArrayList<>();
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(journals + "/Books.xml"));
             doc.getDocumentElement().normalize();
@@ -227,7 +223,7 @@ public class DataStorage {
 
     // Scans directory for books and reruns their filenames.
     ArrayList<String> PopulateBooksArray(){
-        ArrayList<String> fileNames = new ArrayList<String>();
+        ArrayList<String> fileNames = new ArrayList<>();
         File dir = new File(books);
         if(!dir.exists()){
             Log.e("DataStorage", dir.getPath());
