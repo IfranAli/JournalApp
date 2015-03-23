@@ -17,19 +17,18 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 public class DataStorage {
-	private Document document = null;
     // Folder Structure.
     private static final String documents = Environment.getExternalStorageDirectory() + "/Documents";
     private static final String journals = documents + "/Journals";
     private static final String books = journals + "/Books";
 
+    // Singleton.
     private static DataStorage _DataStorage;
     public static DataStorage GetInstance(){
         if(_DataStorage == null){
@@ -38,6 +37,7 @@ public class DataStorage {
         return _DataStorage;
     }
 
+    // Check folders upon initialization.
 	DataStorage() {
         CheckFolders();
     }
@@ -58,59 +58,6 @@ public class DataStorage {
         if(!bookFolder.exists()){
             bookFolder.mkdirs();
             Log.e("Creating", bookFolder.getPath());
-        }
-    }
-
-    public void SaveDocument(ArrayList<JournalEntry> notes, String filename){
-        newDocument();
-        saveData(notes);
-        saveDocument(filename, books);
-    }
-
-    private void newDocument(){
-        try {
-            this.document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        }catch(Exception ex){
-            Log.d("ERROR", ex.getMessage());
-        }
-    }
-
-	private void saveDocument(String FileName, String SaveDir) {
-        try {
-            // Write Content.
-            Transformer tf = TransformerFactory.newInstance().newTransformer();
-
-            // Indentation.
-            tf.setOutputProperty(OutputKeys.INDENT, "yes");
-            tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new File(SaveDir + "/" + FileName));
-            tf.transform(source, result);
-        } catch (Exception e){
-            Log.d("error", e.getMessage());
-        }
-    }
-
-    private void saveData(ArrayList<JournalEntry> entries){
-        Element root = document.createElement("Journal"); // root element.
-        document.appendChild(root); // Append root element.
-
-        for(JournalEntry j : entries){
-            Element entry = document.createElement("Entry");
-            root.appendChild(entry);
-
-            Element e = document.createElement("title");
-            e.appendChild(document.createTextNode(j.getTitle()));
-            entry.appendChild(e);
-
-            e = document.createElement("data");
-            e.appendChild(document.createTextNode(j.getData()));
-            entry.appendChild(e);
-
-            e = document.createElement("date");
-            e.appendChild(document.createTextNode(j.date.toString()));
-            entry.appendChild(e);
         }
     }
 
@@ -174,14 +121,56 @@ public class DataStorage {
         f.delete();
     }
 
+    // Gets any unprocessed books.
+    private ArrayList<String> getUnprocessedBooks(ArrayList<Book> bookList){
+        ArrayList<String> filenames = new ArrayList<>();
+        File dir = new File(books);
+        if(!dir.exists()){
+            Log.e("DataStorage", "Save " + dir.getPath() + " not exist");
+        } else{
+            for (File f : dir.listFiles()){
+                if (f.getName().endsWith(".xml")){
+                    filenames.add(f.getName());
+                }
+            }
+        }
+
+        for(Book b : bookList){
+            if(filenames.contains(b.getFileName()))
+                filenames.remove(b.getFileName());
+        }
+        Log.e("DATASTORAGE_UNPROC:", String.valueOf(filenames.size()));
+        return filenames;
+    }
+
+    public String ExportBookAsText(Book book) {
+        File outputfile = new File(documents + "/" + book.getBookName() + ".txt");
+        try {
+            FileWriter fw = new FileWriter(outputfile);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (JournalEntry j : book.getListOfEntries()) {
+                bw.write("#" + j.getTitle() + " : " + j.date.GetDateStandard());
+                bw.newLine();
+                bw.write(j.getData());
+                bw.newLine();
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return outputfile.getAbsolutePath();
+    }
+
+    //region XML saving stuff.
     // Creates Books index file.
     public void CreateBooksInfo(ArrayList<Book> entries){
-        // index any unIndexed books as well.
+        // index any un-Indexed books as well.
         for(String s : getUnprocessedBooks(entries)){
             entries.add(new Book(s, s));
         }
 
-        newDocument();
+        Document document = newDocument();
         Element root = document.createElement("Books"); // root element.
         document.appendChild(root); // Append root element.
 
@@ -204,56 +193,69 @@ public class DataStorage {
                 e.appendChild(document.createTextNode(String.valueOf(b.NumOfEntries())));
                 entry.appendChild(e);
             } catch (FileNotFoundException e) {
-                Log.e("DATASTORAGE", "Skipping: " + b.getFileName());
+                Log.e("DATASTORAGE", "404-Skipping: " + b.getFileName());
             }
         }
-        saveDocument("Books.xml", journals);
+        saveDocument(document, "Books.xml", journals);
     }
 
-    // Gets any unprocessed books.
-    ArrayList<String> getUnprocessedBooks(ArrayList<Book> books){
-        ArrayList<String> filenames = PopulateBooksArray();
-        for(Book b : books){
-            if(filenames.contains(b.getFileName()))
-                filenames.remove(b.getFileName());
+    // Save a Book into a XML document with the given filename.
+    public void SaveBook(ArrayList<JournalEntry> journalEntries, String filename){
+        // New Document.
+        Document document = newDocument();
+
+        // Define Root element.
+        Element root = document.createElement("Journal"); // root element.
+        document.appendChild(root); // Append root element.
+
+        // Iterate though each note.
+        for(JournalEntry j : journalEntries){
+            Element entry = document.createElement("Entry");
+            root.appendChild(entry);
+
+            Element e = document.createElement("title");
+            e.appendChild(document.createTextNode(j.getTitle()));
+            entry.appendChild(e);
+
+            e = document.createElement("data");
+            e.appendChild(document.createTextNode(j.getData()));
+            entry.appendChild(e);
+
+            e = document.createElement("date");
+            e.appendChild(document.createTextNode(j.date.toString()));
+            entry.appendChild(e);
         }
-        //Log.e("DATASTORAGE_UNPROCESSED:", String.valueOf(filenames.size()));
-        return filenames;
+
+        // Save the document.
+        saveDocument(document, filename, books);
     }
 
-    // Scans directory for books and reruns their filenames.
-    ArrayList<String> PopulateBooksArray(){
-        ArrayList<String> fileNames = new ArrayList<>();
-        File dir = new File(books);
-        if(!dir.exists()){
-            Log.e("DataStorage", dir.getPath());
-            Log.e("DataStorage", "Save Dir not exist");
-        } else{
-            for (File f : dir.listFiles()){
-                if (f.getName().endsWith(".xml")){
-                    fileNames.add(f.getName());
-                }
-            }
-        }
-        return fileNames;
-    }
-
-    public String ExportBookAsText(Book book) {
-        File outputfile = new File(documents + "/" + book.getBookName() + ".txt");
+    // Returns a Document Object.
+    private Document newDocument(){
         try {
-            FileWriter fw = new FileWriter(outputfile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            for (JournalEntry j : book.getListOfEntries()) {
-                bw.write("#" + j.getTitle() + " : " + j.date.GetDateStandard());
-                bw.newLine();
-                bw.write(j.getData());
-                bw.newLine();
-                bw.newLine();
-            }
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        }catch(Exception ex){
+            Log.d("ERROR", ex.getMessage());
         }
-        return outputfile.getAbsolutePath();
+        return null;
     }
+
+    // Saves a Document Obj to path specified.
+    private void saveDocument(Document document, String FileName, String SaveDir) {
+        try {
+            // Write Content.
+            Transformer tf = TransformerFactory.newInstance().newTransformer();
+
+            // Indentation.
+            //tf.setOutputProperty(OutputKeys.INDENT, "yes");
+            //tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(new File(SaveDir + "/" + FileName));
+            tf.transform(source, result);
+        } catch (Exception e){
+            Log.d("error", e.getMessage());
+        }
+    }
+    //endregion
 }

@@ -60,7 +60,7 @@ public class Book {
     // Save Load
     public void saveXML(){
         try {
-            dataStorage.SaveDocument(entries, FileName);
+            dataStorage.SaveBook(entries, FileName);
         } catch (Exception e) {
             Log.d("ERROR", e.getMessage());
         }

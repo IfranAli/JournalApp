@@ -48,19 +48,19 @@ public class Fragment_BookListView extends Fragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_addBook:
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialogNewBook");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-
-                // Create and show the dialog.
-                fragment_newbook newFragment = new fragment_newbook();
-                newFragment.setTargetFragment(this, 1);
-                newFragment.show(ft, "dialogNewBook");
-                return true;
+//            case R.id.action_addBook:
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                Fragment prev = getFragmentManager().findFragmentByTag("dialogNewBook");
+//                if (prev != null) {
+//                    ft.remove(prev);
+//                }
+//                ft.addToBackStack(null);
+//
+//                // Create and show the dialog.
+//                fragment_newbook newFragment = new fragment_newbook();
+//                newFragment.setTargetFragment(this, 1);
+//                newFragment.show(ft, "dialogNewBook");
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
