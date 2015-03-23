@@ -1,5 +1,5 @@
 package com.tehpanda.dragoneon.journal.View;
-import android.app.FragmentManager;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.tehpanda.dragoneon.journal.R;
 
@@ -127,24 +126,36 @@ public class Fragment_NavDrawer extends Fragment{
         view.findViewById(R.id.FL_button_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    mFmgr = getFragmentManager();
-                    Fragment f = mFmgr.findFragmentById(R.id.BookList_Layout);
-                    switch (f.getTag()){
-                        case SETTING_TAG :
-                            mFmgr.beginTransaction().replace(R.id.BookList_Layout, new Fragment_BookListView(), BOOK_TAG).commit();
-                            break;
-                        case BOOK_TAG :
-                            mFmgr.beginTransaction().replace(R.id.BookList_Layout, new SettingsFragment(), SETTING_TAG).commit();
-                            break;
-                        default:
-                            break;
-                    }
-                } catch (Exception e) {
+//                try{
+//                    mFmgr = getFragmentManager();
+//                    Fragment f = mFmgr.findFragmentById(R.id.BookList_Layout);
+//                    switch (f.getTag()){
+//                        case SETTING_TAG :
+//                            mFmgr.beginTransaction().replace(R.id.BookList_Layout, new Fragment_BookListView(), BOOK_TAG).commit();
+//                            break;
+//                        case BOOK_TAG :
+//                            mFmgr.beginTransaction().replace(R.id.BookList_Layout, new SettingsFragment(), SETTING_TAG).commit();
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                } catch (Exception e) {
+//                }
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("dialogSettings");
+                if (prev != null) {
+                    ft.remove(prev);
                 }
+                ft.addToBackStack(null);
+
+                // Create and show the dialog.
+                SettingsFragment newFragment = new SettingsFragment();
+                newFragment.show(ft, "dialogSettings");
             }
         });
         //todo: Fix top and bottom chunck of code. Literally copy pasted...
+        //todo: Deprecated since settings buttion now just opens a new dialog.
         // Set BookList as default if new instance.
         mFmgr = getFragmentManager();
         if( mFmgr.findFragmentById(R.id.BookList_Layout) == null) {
