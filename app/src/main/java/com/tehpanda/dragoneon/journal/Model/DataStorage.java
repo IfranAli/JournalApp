@@ -217,7 +217,7 @@ public class DataStorage {
             if(filenames.contains(b.getFileName()))
                 filenames.remove(b.getFileName());
         }
-        Log.e("DATASTORAGE_UNPROCESSED:", String.valueOf(filenames.size()));
+        //Log.e("DATASTORAGE_UNPROCESSED:", String.valueOf(filenames.size()));
         return filenames;
     }
 

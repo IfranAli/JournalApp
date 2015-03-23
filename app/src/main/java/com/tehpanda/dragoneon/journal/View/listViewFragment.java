@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.JournalEntry;
+import com.tehpanda.dragoneon.journal.Model.SharedPrefMgr;
 import com.tehpanda.dragoneon.journal.R;
 
 public class listViewFragment extends Fragment {;
@@ -40,6 +41,7 @@ public class listViewFragment extends Fragment {;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.e("OnCreate", "listViewFragment");
+        SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(getActivity(), SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))) ,true);
         super.onCreate(savedInstanceState);
     }
 

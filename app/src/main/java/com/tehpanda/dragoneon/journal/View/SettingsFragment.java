@@ -1,7 +1,6 @@
 package com.tehpanda.dragoneon.journal.View;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -87,6 +86,7 @@ public class SettingsFragment extends Fragment {
             case 2: theme = R.layout.item_layout_card_encap; break;
             case 3: theme = R.layout.item_layout_stack; break;
             case 4: theme = R.layout.item_layout_square; break;
+            case 5: theme = R.layout.item_layout_mcard; break;
             default: theme = R.layout.item_layout_card; break;
         }
         return theme;

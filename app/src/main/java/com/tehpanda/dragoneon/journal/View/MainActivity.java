@@ -1,7 +1,6 @@
 package com.tehpanda.dragoneon.journal.View;
 
 import android.content.res.Configuration;
-import android.graphics.Region;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,10 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ViewGroup;
 
-
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Controller.JournalController;
-import com.tehpanda.dragoneon.journal.Model.SharedPrefMgr;
 import com.tehpanda.dragoneon.journal.R;
 
 
@@ -92,7 +89,7 @@ public class MainActivity extends ActionBarActivity implements Fragment_BookList
         }
 
         // Applying Last selected theme.
-        fragment_listView.SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(this, SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))) ,true);
+        // fragment_listView.SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(this, SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))) ,true);
     }
 
     public void weLandscapeNow() {
