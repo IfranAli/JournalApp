@@ -34,8 +34,7 @@ public class SettingsFragment extends DialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Save Preferences for layout.
                 SharedPrefMgr.Write(getActivity(), SharedPrefMgr.KEY_LAYOUT_LAST_USED, String.valueOf(position));
-                mainActivity.fragment_listView.SetTheme(ParseThemeIndex(position), false);
-                //todo: CHECK IF A BOOK IS LOADED FIRST!!
+                mainActivity.fragment_listView.SetTheme(ParseThemeIndex(position));
             }
 
             @Override

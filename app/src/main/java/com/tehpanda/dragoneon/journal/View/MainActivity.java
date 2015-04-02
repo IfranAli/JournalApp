@@ -87,9 +87,6 @@ public class MainActivity extends ActionBarActivity implements Fragment_BookList
                 }
             }
         }
-
-        // Applying Last selected theme.
-        // fragment_listView.SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(this, SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))) ,true);
     }
 
     public void weLandscapeNow() {

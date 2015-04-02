@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tehpanda.dragoneon.journal.View.NoBooksLoaded">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create A book!"
+        android:id="@+id/no_newBook"
+        android:layout_gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/textView4"
+        android:layout_alignEnd="@+id/textView4"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="There are no books! :O"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="81dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create One!"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/no_newBook"
+        android:layout_alignLeft="@+id/no_newBook"
+        android:layout_alignStart="@+id/no_newBook"
+        android:layout_marginLeft="9dp"
+        android:layout_marginStart="9dp" />
+
+</RelativeLayout>

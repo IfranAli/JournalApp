@@ -67,7 +67,7 @@ public class Book {
     }
     public void loadXML() throws FileNotFoundException {
         entries.clear();
-        entries.addAll(dataStorage.loadData(getFileName()));
+        entries.addAll(dataStorage.loadBook(getFileName()));
     }
 
     public static final int MAX_LENGTH = 10;

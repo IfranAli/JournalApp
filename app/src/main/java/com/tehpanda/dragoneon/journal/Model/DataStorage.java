@@ -15,8 +15,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -61,25 +61,27 @@ public class DataStorage {
         }
     }
 
-    public ArrayList<JournalEntry> loadData(String fileName) throws FileNotFoundException{
+    // Load Book from given filename.
+    public ArrayList<JournalEntry> loadBook(String fileName) throws FileNotFoundException{
         ArrayList<JournalEntry> entries = new ArrayList<>();
         try {
-            DocumentBuilderFactory dbFactory =  DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new File(books + "/" + fileName));
+            Document doc = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(new File(books + "/" + fileName));
 
             doc.getDocumentElement().normalize();
 
             NodeList nList = doc.getElementsByTagName("Entry");
-            Node n = null;
+            Node n;
             for (int i = 0; i < nList.getLength(); i++) {
                 n = nList.item(i);
                 if(n.getNodeType() == Node.ELEMENT_NODE){
                     Element e = (Element)n;
-                    String title = e.getElementsByTagName("title").item(0).getTextContent();
-                    String date = e.getElementsByTagName("date").item(0).getTextContent();
-                    String data = e.getElementsByTagName("data").item(0).getTextContent();
-                    entries.add(new JournalEntry(title, data, date));
+                    entries.add(new JournalEntry(
+                            e.getElementsByTagName("title").item(0).getTextContent(),
+                            e.getElementsByTagName("data").item(0).getTextContent(),
+                            e.getElementsByTagName("date").item(0).getTextContent()
+                    ));
                 }
             }
         } catch (FileNotFoundException e){
@@ -247,8 +249,8 @@ public class DataStorage {
             Transformer tf = TransformerFactory.newInstance().newTransformer();
 
             // Indentation.
-            //tf.setOutputProperty(OutputKeys.INDENT, "yes");
-            //tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            tf.setOutputProperty(OutputKeys.INDENT, "yes");
+            tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
             DOMSource source = new DOMSource(document);
             StreamResult result = new StreamResult(new File(SaveDir + "/" + FileName));

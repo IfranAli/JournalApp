@@ -41,7 +41,6 @@ public class listViewFragment extends Fragment {;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.e("OnCreate", "listViewFragment");
-        SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(getActivity(), SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))) ,true);
         super.onCreate(savedInstanceState);
     }
 
@@ -53,7 +52,9 @@ public class listViewFragment extends Fragment {;
     //region ActionBar Items
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.listview_actions, menu);
+        if(currentBook != -1) {
+            inflater.inflate(R.menu.listview_actions, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override
@@ -84,6 +85,8 @@ public class listViewFragment extends Fragment {;
             currentBook = savedInstanceState.getInt("index");
         else currentBook = -1;
 
+        SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(getActivity(), SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))));
+
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         textView = (TextView) view.findViewById(R.id.listViewBlankText);
@@ -102,18 +105,21 @@ public class listViewFragment extends Fragment {;
         }
 
         Log.e("ListViewF","Book id: " + String.valueOf(currentBook));
+        if(_JournalController.GetBooks().isEmpty()) {
+            NoBooksLoaded frag = new NoBooksLoaded();
+            mainActivity.getSupportFragmentManager().beginTransaction().replace(R.id.noBookLoadedLayout, frag).commit();
+        }
         return view;
     }
 
     public int layout = R.layout.item_layout_card;
     // Set Item view Theme.
-    public void SetTheme(int layout, boolean NoRefresh) {
+    public void SetTheme(int layout) {
         this.layout = layout;
-        // if no books are loaded, return.
-        if(NoRefresh)
-            return;
-        // refresh layoutview.
-        LoadBook(currentBook);
+        // If a book is loaded, then refresh it,
+        // to display the new theme.
+        if(isBookLoaded())
+            LoadBook(currentBook);
     }
     public void LoadBook(int bookid){
         this.currentBook = bookid;
@@ -125,6 +131,7 @@ public class listViewFragment extends Fragment {;
         listview.setVisibility(View.VISIBLE);
         // Hide "Load A Book" text.
         textView.setVisibility(View.GONE);
+        getActivity().findViewById(R.id.noBookLoadedLayout).setVisibility(View.GONE);
     }
 
     //region Context Menu
@@ -178,5 +185,9 @@ public class listViewFragment extends Fragment {;
         }
         mainActivity.fragment_editFrag.LoadNewEntry(book, index, true);
         mainActivity.viewPager.setCurrentItem(2, true);
+    }
+
+    public boolean isBookLoaded(){
+        return currentBook != -1;
     }
 }
