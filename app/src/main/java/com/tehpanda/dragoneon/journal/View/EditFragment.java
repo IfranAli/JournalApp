@@ -20,7 +20,7 @@ public class EditFragment extends Fragment {
     private IJournalEntry entry;
 
     // Index of current book and position
-    private boolean initalized;
+    private boolean initialized;
     private int position;
     private int currentBook;
 
@@ -31,6 +31,7 @@ public class EditFragment extends Fragment {
     private TextView edit_notyetloaded;
 
     private static final String KEY_INDEX = "index";
+    private static final String KEY_INITIALIZED = "initialized";
     private static final String KEY_CURRENT_BOOK = "book";
 
     @Override
@@ -42,24 +43,21 @@ public class EditFragment extends Fragment {
         // Get references to elements.
         editData = (EditText) view.findViewById(R.id.editText);
         editTitle = (EditText) view.findViewById(R.id.editTitle);
-        // Display Message.
         edit_notyetloaded = (TextView) view.findViewById(R.id.Edit_NotLoaded);
-        visibility(false);
-        if (savedInstanceState != null) {
+
+        // Show "No Note Loaded" Text.
+        edit_notyetloaded.setVisibility(View.VISIBLE);
+        if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_INITIALIZED)) {
             Log.e("OnCreate_Edit", "Loading Saved Instance State");
-            // Restore saved instance.
             position = savedInstanceState.getInt(KEY_INDEX);
             currentBook = savedInstanceState.getInt(KEY_CURRENT_BOOK);
             LoadNewEntry(currentBook, position, false);
-        }
-        if(initalized){
-            visibility(true);
         }
         return view;
     }
 
     public void LoadNewEntry(int currentBook, int position, boolean saveOnLoad){
-        initalized = true;
+        initialized = true;
         // Save previous changes.
         if(saveOnLoad){
             SaveChanges();
@@ -72,17 +70,8 @@ public class EditFragment extends Fragment {
         // Set Data.
         editTitle.setText(entry.getTitle());
         editData.setText(entry.getData());
-        visibility(true);
-    }
-
-    private void visibility(boolean b){
-        if(b){
-            // Make visible.
-            edit_notyetloaded.setVisibility(View.GONE);
-        } else {
-            // Hide editor.
-            edit_notyetloaded.setVisibility(View.VISIBLE);
-        }
+        // Hide not loaded text.
+        edit_notyetloaded.setVisibility(View.GONE);
     }
 
     public void SaveChanges(){
@@ -107,9 +96,14 @@ public class EditFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.e("Edit", "OnSaveInstance");
-        outState.putInt(KEY_INDEX, position);
-        outState.putInt(KEY_CURRENT_BOOK, currentBook);
+        if(initialized) {
+            Log.e("Edit", "OnSaveInstance");
+            outState.putInt(KEY_INDEX, position);
+            outState.putInt(KEY_CURRENT_BOOK, currentBook);
+            outState.putBoolean(KEY_INITIALIZED, true);
+        } else {
+            outState.putBoolean(KEY_INITIALIZED, false);
+        }
         super.onSaveInstanceState(outState);
     }
 }

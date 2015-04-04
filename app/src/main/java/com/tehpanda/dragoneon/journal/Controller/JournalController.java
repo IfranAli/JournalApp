@@ -1,13 +1,11 @@
 package com.tehpanda.dragoneon.journal.Controller;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Environment;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
-import com.tehpanda.dragoneon.journal.Model.*;
-import com.tehpanda.dragoneon.journal.View.item_adapter_book;
+import android.util.Log;
+
+import com.tehpanda.dragoneon.journal.Model.Book;
+import com.tehpanda.dragoneon.journal.Model.DataStorage;
+import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
+import com.tehpanda.dragoneon.journal.Model.JournalEntry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class JournalController implements IJournalController {
     JournalController() {
         Books = dataStorage.GetBooks();
         Log.e("alert", "recreating books.xml");
-        dataStorage.CreateBooksInfo(Books);
+        dataStorage.CreateBooksInfo(Books, false);
     }
 
     // Current Date formatted for saving.
@@ -95,12 +93,13 @@ public class JournalController implements IJournalController {
 
     // Book Private Methods.
     private void regenerateBooksXML(){
-        dataStorage.CreateBooksInfo(Books);
+        dataStorage.CreateBooksInfo(Books, false);
     }
     // Save Load
     @Override
     public void saveXML(int currentBook) {
-        Books.get(currentBook).saveXML();
+        Books.get(currentBook).SaveBook();
+        regenerateBooksXML();
     }
 
     @Override
@@ -111,5 +110,10 @@ public class JournalController implements IJournalController {
     @Override
     public String ExportBookAsText(int position) {
         return dataStorage.ExportBookAsText(getBook(position));
+    }
+
+    @Override
+    public void RebuildBooksXml() {
+        dataStorage.CreateBooksInfo(Books, true);
     }
 }

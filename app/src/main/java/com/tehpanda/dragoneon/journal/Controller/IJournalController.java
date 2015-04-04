@@ -43,4 +43,7 @@ public interface IJournalController {
     List<Book> GetBooks();
 
     String ExportBookAsText(int position);
+
+    // DevTools
+    void RebuildBooksXml();
 }

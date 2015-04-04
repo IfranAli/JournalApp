@@ -69,6 +69,9 @@ public class listViewFragment extends Fragment {;
                 return true;
             case R.id.SortDate:
                 adapter.sort(JournalEntry.ByDate);
+                return true;
+            case R.id.RebuildBooksXml:
+                _JournalController.RebuildBooksXml();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -85,8 +88,6 @@ public class listViewFragment extends Fragment {;
             currentBook = savedInstanceState.getInt("index");
         else currentBook = -1;
 
-        SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(getActivity(), SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))));
-
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         textView = (TextView) view.findViewById(R.id.listViewBlankText);
@@ -97,6 +98,9 @@ public class listViewFragment extends Fragment {;
 
         if(!mainActivity.isLandscape())
             view.findViewById(R.id.editTextLayout).setVisibility(View.GONE);
+        if(isBookLoaded() == true) {
+            view.findViewById(R.id.noBookLoadedLayout).setVisibility(View.GONE);
+        }
 
         // Context Menu
         registerForContextMenu(listview);
@@ -109,6 +113,7 @@ public class listViewFragment extends Fragment {;
             NoBooksLoaded frag = new NoBooksLoaded();
             mainActivity.getSupportFragmentManager().beginTransaction().replace(R.id.noBookLoadedLayout, frag).commit();
         }
+        SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(getActivity(), SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))));
         return view;
     }
 
@@ -126,12 +131,13 @@ public class listViewFragment extends Fragment {;
         adapter = new item_adapter(currentBook, getActivity().getApplicationContext(), _JournalController, layout);
         listview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
-        // Make visible after a book has been loaded.
         listview.setVisibility(View.VISIBLE);
-        // Hide "Load A Book" text.
         textView.setVisibility(View.GONE);
-        getActivity().findViewById(R.id.noBookLoadedLayout).setVisibility(View.GONE);
+        // Hide "Load A Book" text.
+        View v = getActivity().findViewById(R.id.noBookLoadedLayout);
+        if(v != null) { // Quick fix for now.
+            v.setVisibility(View.GONE);
+        }
     }
 
     //region Context Menu
@@ -149,6 +155,7 @@ public class listViewFragment extends Fragment {;
             super.onContextItemSelected(item);
             if (item.getTitle() == "Delete"){
                 _JournalController.delete(currentBook, ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
+                _JournalController.saveXML(currentBook);
                 adapter.notifyDataSetChanged();
             }
             else if(item.getTitle() == "Add") {
@@ -181,7 +188,7 @@ public class listViewFragment extends Fragment {;
     // This method is called when the user clicks on an note in the list.
     void PassData(int book, int index) {
         if(mainActivity.isLandscape()){
-            mainActivity.weLandscapeNow();
+            mainActivity.PostLandscape();
         }
         mainActivity.fragment_editFrag.LoadNewEntry(book, index, true);
         mainActivity.viewPager.setCurrentItem(2, true);

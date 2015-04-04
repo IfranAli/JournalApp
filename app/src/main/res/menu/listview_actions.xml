@@ -21,4 +21,12 @@
                 app:showAsAction="never"/>
         </menu>
     </item>
+
+    <item android:title="DevTool"
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@+id/RebuildBooksXml"
+                android:title="RebuildBooksXml"/>
+        </menu>
+    </item>
 </menu>

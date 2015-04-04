@@ -6,15 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.R;
 
-/**
- * Created by panda on 28/09/14.
- */
 public class fragment_edit_book extends DialogFragment {
     private EditText bookname;
     private int bookIndex;
@@ -48,7 +44,7 @@ public class fragment_edit_book extends DialogFragment {
         bookname = (EditText)view.findViewById(R.id.BookName);
         bookname.setText(journalController.GetBookName(bookIndex));
 
-        ((Button)view.findViewById(R.id.Save)).setOnClickListener(new View.OnClickListener() {
+        (view.findViewById(R.id.Save)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 journalController.SetBookName(bookIndex, bookname.getText().toString());

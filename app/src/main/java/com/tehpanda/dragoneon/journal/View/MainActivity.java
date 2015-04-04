@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements Fragment_BookList
 
 
         // Check if this is first run and if so instantiate fragments.
-        // Else we leave them alone to be instaniated by the ViewPager.
+        // Else we leave them alone to be instantiated by the ViewPager.
         if(savedInstanceState == null) {
             fragment_listView = new listViewFragment();
             fragment_editFrag = new EditFragment();
@@ -89,10 +89,8 @@ public class MainActivity extends ActionBarActivity implements Fragment_BookList
         }
     }
 
-    public void weLandscapeNow() {
-        // Instantiate Editfragment if we're in Landscape mode because
-        // Viewpager is not able to do it itself since we are only calling for 2pages
-        // and not three.
+    public void PostLandscape() {
+        // Instantiate Editfragment if we're in Landscape mode.
         String tag = makeFragmentName(viewPager.getId(), 1);
         if(getSupportFragmentManager().findFragmentByTag(tag) == null) {
             fragment_editFrag = new EditFragment();

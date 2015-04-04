@@ -7,67 +7,91 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
-    private final DataStorage dataStorage;
-    private String FileName;
-    private String BookName;
-    private final ArrayList<JournalEntry> entries = new ArrayList<>();
+    private final DataStorage mDataStorage;
+    private String mFileName;
+    private String mBookName;
+    private ArrayList<JournalEntry> mNotes;
+    private int mTotalNotes;
 
     //Todo: Clean up this class, fix constructor member initialization.
     //Todo: Check if fileName exists.
     // Ctor for creating a new book.
     public Book(String bookName){
         this.setFileName(generateFileName(bookName));
-        this.dataStorage = DataStorage.GetInstance();
         this.setBookName(bookName);
+        this.mDataStorage = DataStorage.GetInstance();
     }
     // Ctor for restoring created Book from DB.
     public Book(String fileName, String bookName) {
         this.setFileName(fileName);
         this.setBookName(bookName);
-        this.dataStorage = DataStorage.GetInstance();
+        this.mDataStorage = DataStorage.GetInstance();
+    }
+    // Ctor for restoring created Book from DB.
+    public Book(String fileName, String bookName, int totalNotes) {
+        this(fileName, bookName);
+        this.mTotalNotes = totalNotes;
     }
 
     public void AddEntry(String title, String data, String date){
-        entries.add(new JournalEntry(title, data, date));
+        mNotes.add(new JournalEntry(title, data, date));
+        mTotalNotes++;
     }
     public void Delete(int index){
-        entries.remove(index);
+        mNotes.remove(index);
+        mTotalNotes--;
     }
+
     public JournalEntry GetEntry(int index){
-        return entries.get(index);
+        return mNotes.get(index);
     }
+
     public List<JournalEntry> getListOfEntries(){
-        return entries;
+        if(mNotes == null){
+            try {
+                LoadBook();
+            } catch (FileNotFoundException e) {
+                Log.e("Error", e.getMessage());
+            }
+        }
+        return mNotes;
+    }
+
+    public int getTotalNotes() {
+        return mTotalNotes;
     }
     public int NumOfEntries(){
-        return entries.size();
+        return mNotes.size();
     }
 
     // Getters and setters.
     public String getFileName() {
-        return FileName;
+        return mFileName;
     }
     void setFileName(String fileName) {
-        FileName = fileName;
+        mFileName = fileName;
     }
     public String getBookName() {
-        return BookName;
+        return mBookName;
     }
     public void setBookName(String bookName) {
-        BookName = bookName;
+        mBookName = bookName;
     }
 
     // Save Load
-    public void saveXML(){
+    public void SaveBook(){
         try {
-            dataStorage.SaveBook(entries, FileName);
+            mDataStorage.SaveBook(mNotes, mFileName);
         } catch (Exception e) {
             Log.d("ERROR", e.getMessage());
         }
     }
-    public void loadXML() throws FileNotFoundException {
-        entries.clear();
-        entries.addAll(dataStorage.loadBook(getFileName()));
+    public void LoadBook() throws FileNotFoundException {
+        if(mNotes == null){
+            mNotes = new ArrayList<>();
+        }
+        mNotes.clear();
+        mNotes.addAll(mDataStorage.loadBook(getFileName()));
     }
 
     public static final int MAX_LENGTH = 10;

@@ -107,8 +107,8 @@ public class DataStorage {
                     Element e = (Element)n;
                     String bookName = e.getElementsByTagName("BookName").item(0).getTextContent();
                     String fileName = e.getElementsByTagName("FileName").item(0).getTextContent();
-                    //String entries = e.getElementsByTagName("Entries").item(0).getTextContent(); // derived.
-                    books.add(new Book(fileName, bookName));
+                    String entries = e.getElementsByTagName("Entries").item(0).getTextContent();
+                    books.add(new Book(fileName, bookName, Integer.parseInt(entries)));
                 }
             }
         } catch (Exception ex){
@@ -166,7 +166,7 @@ public class DataStorage {
 
     //region XML saving stuff.
     // Creates Books index file.
-    public void CreateBooksInfo(ArrayList<Book> entries){
+    public void CreateBooksInfo(ArrayList<Book> entries, boolean getTrueTotal){
         // index any un-Indexed books as well.
         for(String s : getUnprocessedBooks(entries)){
             entries.add(new Book(s, s));
@@ -178,7 +178,7 @@ public class DataStorage {
 
         for(Book b : entries) {
             try {
-                b.loadXML();
+                //b.loadXML();
 
                 Element entry = document.createElement("Book");
                 root.appendChild(entry);
@@ -192,7 +192,12 @@ public class DataStorage {
                 entry.appendChild(e);
 
                 e = document.createElement("Entries");
-                e.appendChild(document.createTextNode(String.valueOf(b.NumOfEntries())));
+                if (getTrueTotal){
+                    b.LoadBook();
+                    e.appendChild(document.createTextNode(String.valueOf(b.NumOfEntries())));
+                } else {
+                    e.appendChild(document.createTextNode(String.valueOf(b.getTotalNotes())));
+                }
                 entry.appendChild(e);
             } catch (FileNotFoundException e) {
                 Log.e("DATASTORAGE", "404-Skipping: " + b.getFileName());

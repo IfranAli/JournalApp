@@ -11,9 +11,6 @@ import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.Book;
 import com.tehpanda.dragoneon.journal.R;
 
-/**
- * Created by dragoneon on 7/09/14.
- */
 public class item_adapter_book extends ArrayAdapter<Book>{
     private IJournalController journalController;
     // Constructor
@@ -35,7 +32,7 @@ public class item_adapter_book extends ArrayAdapter<Book>{
         TextView title = (TextView) view.findViewById(R.id.title);
         title.setText(book.getBookName());
 
-        ((TextView) view.findViewById(R.id.book_entries)).setText(book.NumOfEntries() + " Logs");
+        ((TextView) view.findViewById(R.id.book_entries)).setText(book.getTotalNotes() + " Logs");
         return view;
     }
 }

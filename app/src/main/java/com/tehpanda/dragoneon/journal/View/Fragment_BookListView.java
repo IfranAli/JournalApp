@@ -149,6 +149,7 @@ public class Fragment_BookListView extends Fragment{
                 newFragment.show(ft, "dialog");
             } else if (item.getTitle().equals("Delete Book")){
                 journalController.DeleteBook(journalController.getBook(position));
+
                 adapter.notifyDataSetChanged();
             } else if (item.getTitle().equals("Export .txt")) {
                 Toast.makeText(getActivity(), journalController.ExportBookAsText(position),Toast.LENGTH_SHORT).show();
