@@ -1,27 +1,22 @@
 package com.tehpanda.dragoneon.journal.View;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
-import com.tehpanda.dragoneon.journal.Model.JournalEntry;
+import com.tehpanda.dragoneon.journal.Model.Note;
 import com.tehpanda.dragoneon.journal.R;
-
-import java.util.List;
 
 /**
  * Created by dragoneon on 13/07/14.
  */
-class item_adapter extends ArrayAdapter<JournalEntry> {
+class item_adapter extends ArrayAdapter<Note> {
     private static int[] colors;
     private int currentBook;
     private IJournalController _JournalController;
@@ -52,12 +47,7 @@ class item_adapter extends ArrayAdapter<JournalEntry> {
 
         //Colours
         int colour = colors[currentEntry.GetDayColor()];
-        //itemView.findViewById(R.id.Graphics_DateBox).setBackgroundColor(colour);
         ((GradientDrawable)itemView.findViewById(R.id.Graphics_DateBox).getBackground()).setColor(colour);
-
-        //Fill entry item
-        //LinearLayout linearLayout = (LinearLayout)itemView.findViewById(R.id.bg);
-        //linearLayout.setBackgroundColor(Color.argb(15, Color.red(colour), Color.green(colour), Color.blue(colour)));
 
         TextView day = (TextView) itemView.findViewById(R.id.item_day);
         day.setText(currentEntry.GetDay());

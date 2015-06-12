@@ -2,6 +2,7 @@ package com.tehpanda.dragoneon.journal.View;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -16,12 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
+import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
+import com.tehpanda.dragoneon.journal.Model.JournalEncodedEntry;
 import com.tehpanda.dragoneon.journal.Model.JournalEntry;
+import com.tehpanda.dragoneon.journal.Model.Note;
 import com.tehpanda.dragoneon.journal.Model.SharedPrefMgr;
 import com.tehpanda.dragoneon.journal.R;
 
 public class listViewFragment extends Fragment {;
-    private ArrayAdapter<JournalEntry> adapter; // Adapter.
+    private ArrayAdapter<Note> adapter; // Adapter.
     private MainActivity mainActivity;
     private IJournalController _JournalController;
     private int currentBook;
@@ -98,7 +102,7 @@ public class listViewFragment extends Fragment {;
 
         if(!mainActivity.isLandscape())
             view.findViewById(R.id.editTextLayout).setVisibility(View.GONE);
-        if(isBookLoaded() == true) {
+        if(isBookLoaded()) {
             view.findViewById(R.id.noBookLoadedLayout).setVisibility(View.GONE);
         }
 
@@ -180,10 +184,33 @@ public class listViewFragment extends Fragment {;
         @Override
         public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
             // Item on listview was clicked so we pass the index number and book number.
+            IJournalEntry e = _JournalController.getEntry(currentBook, pos);
+            if (e.isEncrypted() && ((JournalEncodedEntry)e).decryptionkey == null) {
+                displayPasswordPrompt(currentBook, pos);
+            }
             PassData(currentBook, pos);
             adapter.notifyDataSetChanged();
         }
     };
+
+    Boolean displayPasswordPrompt(int currentBook ,int pos){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("PasswordDialogue");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        // Parameters
+        PasswordDialogue f = new PasswordDialogue();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("currentBook", currentBook);
+        bundle.putInt("entrypos", pos);
+
+        f.setArguments(bundle);
+        f.show(ft, "PasswordDialogue");
+        return true;
+    }
 
     // This method is called when the user clicks on an note in the list.
     void PassData(int book, int index) {

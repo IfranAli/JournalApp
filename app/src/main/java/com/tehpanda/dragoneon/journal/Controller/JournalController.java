@@ -5,7 +5,7 @@ import android.util.Log;
 import com.tehpanda.dragoneon.journal.Model.Book;
 import com.tehpanda.dragoneon.journal.Model.DataStorage;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
-import com.tehpanda.dragoneon.journal.Model.JournalEntry;
+import com.tehpanda.dragoneon.journal.Model.Note;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class JournalController implements IJournalController {
     }
     // Get all notes from specified book.
     @Override
-    public List<JournalEntry> getListOfEntries(int currentBook) {
+    public List<Note> getListOfEntries(int currentBook) {
         return Books.get(currentBook).getListOfEntries();
     }
 

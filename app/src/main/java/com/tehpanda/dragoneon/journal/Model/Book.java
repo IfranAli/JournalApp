@@ -10,7 +10,7 @@ public class Book {
     private final DataStorage mDataStorage;
     private String mFileName;
     private String mBookName;
-    private ArrayList<JournalEntry> mNotes;
+    private ArrayList<Note> mNotes;
     private int mTotalNotes;
 
     //Todo: Clean up this class, fix constructor member initialization.
@@ -42,11 +42,11 @@ public class Book {
         mTotalNotes--;
     }
 
-    public JournalEntry GetEntry(int index){
+    public Note GetEntry(int index){
         return mNotes.get(index);
     }
 
-    public List<JournalEntry> getListOfEntries(){
+    public List<Note> getListOfEntries(){
         if(mNotes == null){
             try {
                 LoadBook();
@@ -102,6 +102,6 @@ public class Book {
         if(input.length() > MAX_LENGTH) {
             input = input.substring(0, MAX_LENGTH);
         }
-        return input + ".xml";
+        return input + ".json";
     }
 }

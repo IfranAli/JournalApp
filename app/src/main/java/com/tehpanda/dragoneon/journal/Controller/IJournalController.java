@@ -2,7 +2,7 @@ package com.tehpanda.dragoneon.journal.Controller;
 
 import com.tehpanda.dragoneon.journal.Model.Book;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
-import com.tehpanda.dragoneon.journal.Model.JournalEntry;
+import com.tehpanda.dragoneon.journal.Model.Note;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface IJournalController {
     IJournalEntry getEntry(int currentBook, int index);
 
     // Get all notes from specified book.
-    List<JournalEntry> getListOfEntries(int currentBook);
+    List<Note> getListOfEntries(int currentBook);
 
     // Book Public Methods.
     String GetBookName(int bookIndex);

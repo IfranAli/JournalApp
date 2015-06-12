@@ -1,7 +1,4 @@
 package com.tehpanda.dragoneon.journal.Model;
-
-import java.util.Calendar;
-
 /**
  * Created by dragoneon on 31/08/14.
  */

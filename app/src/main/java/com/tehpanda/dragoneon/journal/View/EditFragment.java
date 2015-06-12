@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
@@ -35,6 +39,32 @@ public class EditFragment extends Fragment {
     private static final String KEY_CURRENT_BOOK = "book";
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    //region ActionBar Items
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(entry != null && entry.isEncrypted()) {
+            inflater.inflate(R.menu.editfragment_actions, menu);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_lock:
+                Toast.makeText(getActivity().getApplicationContext(), entry.isEncrypted().toString(),Toast.LENGTH_SHORT).show();
+                return  true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    //endregion
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.e("OnCreateView", "EditFrag");
         _JournalController = ((MainActivity)getActivity()).iJournalController;
@@ -54,6 +84,11 @@ public class EditFragment extends Fragment {
             LoadNewEntry(currentBook, position, false);
         }
         return view;
+    }
+
+    public void ReloadData() {
+        editData.setText(entry.getData());
+        editTitle.setText(entry.getTitle());
     }
 
     public void LoadNewEntry(int currentBook, int position, boolean saveOnLoad){
@@ -86,9 +121,34 @@ public class EditFragment extends Fragment {
             this.entry = _JournalController.getEntry(currentBook, position);
         }
         try {
-            entry.setData(editData.getText().toString());
-            entry.setTitle(editTitle.getText().toString());
-            _JournalController.saveXML(currentBook);
+            Boolean modified = false;
+            String title = editTitle.getText().toString();
+            String data = editData.getText().toString();
+
+            String mdata = entry.getData();
+            String mtitle = entry.getTitle();
+
+            if(data.equals(mdata)) {
+                modified = false;
+            } else  {
+                modified = true;
+            }
+            if (modified != true) {
+                if(!title.equals(mtitle)) {
+                    modified = true;
+                } else {
+                    modified = false;
+                }
+            }
+
+            if(modified) {
+                Log.e("Modified", "Saving");
+                entry.setData(data);
+                entry.setTitle(title);
+                _JournalController.saveXML(currentBook);
+            } else {
+                Log.e("Modified", "False CPU cycle saved! :D");
+            }
         } catch (Exception ex) {
             //Log.e("ERROR", ex.getMessage());
         }
