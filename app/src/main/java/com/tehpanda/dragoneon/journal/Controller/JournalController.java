@@ -31,6 +31,11 @@ public class JournalController implements IJournalController {
         dataStorage.CreateBooksInfo(Books, false);
     }
 
+    @Override
+    public boolean HasBooks() {
+        return !Books.isEmpty();
+    }
+
     // Current Date formatted for saving.
     private static String currDateFormatted(){
         return new SimpleDateFormat("dd:MM:yyyy:HH:mm:s").format(Calendar.getInstance().getTime());
@@ -55,6 +60,19 @@ public class JournalController implements IJournalController {
     @Override
     public List<Note> getListOfEntries(int currentBook) {
         return Books.get(currentBook).getListOfEntries();
+    }
+
+    @Override
+    public List<Note> GetRecents() {
+
+        // Moc
+        Book b = new Book("ayy lmao");
+        b.AddEntry("Testing", "Recents", currDateFormatted());
+        b.AddEntry("Testing", "1", currDateFormatted());
+        b.AddEntry("Testing", "2", currDateFormatted());
+        b.AddEntry("Testing", "3", currDateFormatted());
+        b.AddEntry("Testing", "4", currDateFormatted());
+        return b.getListOfEntries();
     }
 
     // Book Public Methods.

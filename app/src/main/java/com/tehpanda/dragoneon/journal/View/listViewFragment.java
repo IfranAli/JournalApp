@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
@@ -30,7 +30,7 @@ public class listViewFragment extends Fragment {;
     private IJournalController _JournalController;
     private int currentBook;
     private ListView listview;
-    private TextView textView;
+    private LinearLayout textView;
 
     public void UpdateAdapter(){
         adapter.notifyDataSetChanged();
@@ -88,13 +88,17 @@ public class listViewFragment extends Fragment {;
         mainActivity = ((MainActivity)getActivity());
         _JournalController = mainActivity.iJournalController;
 
-        if(savedInstanceState != null)
+        if(savedInstanceState != null) {
             currentBook = savedInstanceState.getInt("index");
-        else currentBook = -1;
+        }
+        else {
+            currentBook = -1;
+        }
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        textView = (TextView) view.findViewById(R.id.listViewBlankText);
+        textView = (LinearLayout) view.findViewById(R.id.noBookLoadedLayout);
+
         listview = (ListView) view.findViewById(R.id.listView);
         listview.setOnItemClickListener(onItemClick);
 
@@ -108,16 +112,23 @@ public class listViewFragment extends Fragment {;
 
         // Context Menu
         registerForContextMenu(listview);
+
+
         if(currentBook != -1) {
             LoadBook(currentBook);
         }
 
-        Log.e("ListViewF","Book id: " + String.valueOf(currentBook));
-        if(_JournalController.GetBooks().isEmpty()) {
-            NoBooksLoaded frag = new NoBooksLoaded();
-            mainActivity.getSupportFragmentManager().beginTransaction().replace(R.id.noBookLoadedLayout, frag).commit();
-        }
         SetTheme(SettingsFragment.ParseThemeIndex(Integer.parseInt(SharedPrefMgr.Read(getActivity(), SharedPrefMgr.KEY_LAYOUT_LAST_USED, "0"))));
+
+        boolean d = _JournalController.HasBooks();
+        if(d) {
+            // Show homepage/recent notes.
+            getFragmentManager().beginTransaction().replace(R.id.noBookLoadedLayout, new HomePage()).commit();
+        } else {
+            // Show no books screen.
+            getFragmentManager().beginTransaction().replace(R.id.noBookLoadedLayout, new NoBooksLoaded()).commit();
+        }
+
         return view;
     }
 

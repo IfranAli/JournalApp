@@ -13,22 +13,24 @@
         android:layout_weight="1"
         android:dividerHeight="-1dp" />
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:id="@+id/noBookLoadedLayout">
-        <TextView
-            android:layout_width="fill_parent"
+
+        <!--
+        <fragment
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Please load a Book."
-            android:id="@+id/listViewBlankText"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:gravity="center_vertical|center_horizontal"
-            android:enabled="false" />
+            android:name="com.tehpanda.dragoneon.journal.View.NoBooksLoaded"
+            android:id="@+id/fragment"
+            android:layout_weight="1.57"
+            tools:layout="@layout/fragment_no_books_loaded" />
+            -->
+
     </LinearLayout>
 
     <LinearLayout

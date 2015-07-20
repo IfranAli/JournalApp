@@ -20,6 +20,7 @@ public class Book {
         this.setFileName(generateFileName(bookName));
         this.setBookName(bookName);
         this.mDataStorage = DataStorage.GetInstance();
+        mNotes = new ArrayList<Note>();
     }
     // Ctor for restoring created Book from DB.
     public Book(String fileName, String bookName) {
@@ -34,7 +35,8 @@ public class Book {
     }
 
     public void AddEntry(String title, String data, String date){
-        mNotes.add(new JournalEntry(title, data, date));
+        JournalEntry journal = new JournalEntry(title, data, date);
+        mNotes.add(journal);
         mTotalNotes++;
     }
     public void Delete(int index){

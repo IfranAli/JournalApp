@@ -64,7 +64,9 @@ public class NoBooksLoaded extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 fragment_newbook newFragment = new fragment_newbook();
                 newFragment.show(ft, "dialogNewBook");
-                ll.setVisibility(View.GONE);
+                //ll.setVisibility(View.GONE);
+                Fragment frag = new HomePage();
+                getFragmentManager().beginTransaction().replace(R.id.noBookLoadedLayout, frag).commit();
             }
         });
 

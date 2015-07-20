@@ -35,10 +35,8 @@ public class MainActivity extends ActionBarActivity implements Fragment_BookList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set content View.
         setContentView(R.layout.activity_my);
 
-        Log.e("OnCreate", "MainActivity");
         // Get current Orientation.
         boolean isLandscape = isLandscape();
 
@@ -53,7 +51,6 @@ public class MainActivity extends ActionBarActivity implements Fragment_BookList
 
         // Set ViewPager page count according to current Orientation.
         pages = isLandscape ? 1 : 2;
-
 
         // Check if this is first run and if so instantiate fragments.
         // Else we leave them alone to be instantiated by the ViewPager.

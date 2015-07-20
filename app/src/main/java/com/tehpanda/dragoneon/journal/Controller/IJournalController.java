@@ -19,8 +19,13 @@ public interface IJournalController {
     // Get note from a book.
     IJournalEntry getEntry(int currentBook, int index);
 
+    boolean HasBooks();
+
     // Get all notes from specified book.
     List<Note> getListOfEntries(int currentBook);
+
+    // Get Recently Accessed notes.
+    List<Note> GetRecents();
 
     // Book Public Methods.
     String GetBookName(int bookIndex);
