@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tehpanda.dragoneon.journal.View.SettingsFragment"
+    tools:context="com.tehpanda.dragoneon.journal.Fragments.SettingsFragment"
     android:orientation="vertical"
     android:padding="15dp">
 

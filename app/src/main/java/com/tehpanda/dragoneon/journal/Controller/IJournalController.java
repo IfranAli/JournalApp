@@ -6,9 +6,6 @@ import com.tehpanda.dragoneon.journal.Model.Note;
 
 import java.util.List;
 
-/**
- * Created by panda on 2/24/15.
- */
 public interface IJournalController {
     // Adding note to a book.
     void addItem(int currentBook, String title, String data);
@@ -40,7 +37,7 @@ public interface IJournalController {
     void DeleteBook(Book book);
 
     // Add a Book.
-    Book AddNewBook(String bookname);
+    Boolean AddNewBook(String bookname);
 
     // Save Load
     void saveXML(int currentBook);

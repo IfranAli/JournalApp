@@ -1,4 +1,4 @@
-package com.tehpanda.dragoneon.journal.View;
+package com.tehpanda.dragoneon.journal.Fragments;
 
 
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Controller.JournalController;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
 import com.tehpanda.dragoneon.journal.R;
+import com.tehpanda.dragoneon.journal.View.MainActivity;
 
 /**
  * Created by panda on 11/10/14.

@@ -25,7 +25,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:name="com.tehpanda.dragoneon.journal.View.NoBooksLoaded"
+            android:name="com.tehpanda.dragoneon.journal.Fragments.NoBooksLoaded"
             android:id="@+id/fragment"
             android:layout_weight="1.57"
             tools:layout="@layout/fragment_no_books_loaded" />

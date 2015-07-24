@@ -1,4 +1,4 @@
-package com.tehpanda.dragoneon.journal.View;
+package com.tehpanda.dragoneon.journal.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.R;
+import com.tehpanda.dragoneon.journal.View.MainActivity;
 
 public class fragment_edit_book extends DialogFragment {
     private EditText bookname;

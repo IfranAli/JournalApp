@@ -1,4 +1,4 @@
-package com.tehpanda.dragoneon.journal.View;
+package com.tehpanda.dragoneon.journal.Fragments;
 
 import android.app.Activity;
 import android.net.Uri;

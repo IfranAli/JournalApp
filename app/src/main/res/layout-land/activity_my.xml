@@ -36,7 +36,7 @@ android:id="@+id/pager">
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:name="com.tehpanda.dragoneon.journal.View.Fragment_NavDrawer"
+            android:name="com.tehpanda.dragoneon.journal.Fragments.Fragment_NavDrawer"
             tools:layout="@layout/fragment_book_list" />
 
     </android.support.v4.widget.DrawerLayout>

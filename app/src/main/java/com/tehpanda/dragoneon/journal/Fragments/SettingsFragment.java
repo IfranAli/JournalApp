@@ -1,4 +1,4 @@
-package com.tehpanda.dragoneon.journal.View;
+package com.tehpanda.dragoneon.journal.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +11,7 @@ import android.widget.Spinner;
 
 import com.tehpanda.dragoneon.journal.Model.SharedPrefMgr;
 import com.tehpanda.dragoneon.journal.R;
+import com.tehpanda.dragoneon.journal.View.MainActivity;
 
 public class SettingsFragment extends DialogFragment {
     private MainActivity mainActivity;

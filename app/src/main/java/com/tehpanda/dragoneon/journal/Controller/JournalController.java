@@ -3,18 +3,15 @@ package com.tehpanda.dragoneon.journal.Controller;
 import android.util.Log;
 
 import com.tehpanda.dragoneon.journal.Model.Book;
-import com.tehpanda.dragoneon.journal.Model.DataStorage;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
 import com.tehpanda.dragoneon.journal.Model.Note;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class JournalController implements IJournalController {
-    private DataStorage dataStorage = DataStorage.GetInstance();
-    private ArrayList<Book> Books;
+    //private DataStorage dataStorage = DataStorage.GetInstance();
+    //private ArrayList<Book> Books;
+    private BookLibrary mBookLibrary;
 
     // Singleton.
     private static IJournalController journalController;
@@ -26,53 +23,45 @@ public class JournalController implements IJournalController {
 
     // Constructor.
     JournalController() {
-        Books = dataStorage.GetBooks();
+        mBookLibrary = new BookLibrary();
+        //Books = dataStorage.GetBooks();
         Log.e("alert", "recreating books.xml");
-        dataStorage.CreateBooksInfo(Books, false);
+        //dataStorage.CreateBooksInfo(Books, false);
     }
 
     @Override
     public boolean HasBooks() {
-        return !Books.isEmpty();
+        return !mBookLibrary.GetAllBooks().isEmpty();
     }
 
-    // Current Date formatted for saving.
-    private static String currDateFormatted(){
-        return new SimpleDateFormat("dd:MM:yyyy:HH:mm:s").format(Calendar.getInstance().getTime());
-    }
     // Adding note to a book.
     @Override
     public void addItem(int currentBook, String title, String data) {
-        Books.get(currentBook).AddEntry(title, data, currDateFormatted());
+        mBookLibrary.GetBook(currentBook).AddNewNote(title, data);
     }
     // Delete note in specified book.
     @Override
     public void delete(int currentBook, int index) {
-        Books.get(currentBook).Delete(index);
+        //Books.get(currentBook).Delete(index);
+        mBookLibrary.GetBook(currentBook).Delete(index);
     }
 
     // Get note from a book.
     @Override
     public IJournalEntry getEntry(int currentBook, int index) {
-        return Books.get(currentBook).GetEntry(index);
+        //return Books.get(currentBook).GetEntry(index);
+        return mBookLibrary.GetBook(currentBook).GetEntry(index);
     }
     // Get all notes from specified book.
     @Override
     public List<Note> getListOfEntries(int currentBook) {
-        return Books.get(currentBook).getListOfEntries();
+        //return Books.get(currentBook).getListOfEntries();
+        return mBookLibrary.GetBook(currentBook).getListOfEntries();
     }
 
     @Override
     public List<Note> GetRecents() {
-
-        // Moc
-        Book b = new Book("ayy lmao");
-        b.AddEntry("Testing", "Recents", currDateFormatted());
-        b.AddEntry("Testing", "1", currDateFormatted());
-        b.AddEntry("Testing", "2", currDateFormatted());
-        b.AddEntry("Testing", "3", currDateFormatted());
-        b.AddEntry("Testing", "4", currDateFormatted());
-        return b.getListOfEntries();
+        return mBookLibrary.GetRecentNotes();
     }
 
     // Book Public Methods.
@@ -80,58 +69,50 @@ public class JournalController implements IJournalController {
     public String GetBookName(int bookIndex){
         return getBook(bookIndex).getBookName();
     }
+
     // Set Book Name.
     @Override
     public void SetBookName(int bookIndex, String bookName){
         getBook(bookIndex).setBookName(bookName);
         // Save Changes.
-        regenerateBooksXML();
+        mBookLibrary.GenerateSettingsFile();
     }
     // Get a Book Object.
     @Override
     public Book getBook(int currentBook) {
-        return Books.get(currentBook);
+        return mBookLibrary.GetBook(currentBook);
     }
     // Delete a Book.
     @Override
     public void DeleteBook(Book book){
-        dataStorage.RemoveBook(book);
-        Books.remove(book);
-        regenerateBooksXML();
+        mBookLibrary.DeleteBook(book);
     }
     // Add a Book.
     @Override
-    public Book AddNewBook(String bookname){
-        Book book = new Book(bookname);
-        Books.add(book);
-        regenerateBooksXML();
-        Log.e("BookFileName", book.getFileName());
-        return book;
+    public Boolean AddNewBook(String bookname){
+        return mBookLibrary.CreateBook(bookname);
     }
 
-    // Book Private Methods.
-    private void regenerateBooksXML(){
-        dataStorage.CreateBooksInfo(Books, false);
-    }
     // Save Load
     @Override
     public void saveXML(int currentBook) {
-        Books.get(currentBook).SaveBook();
-        regenerateBooksXML();
+        mBookLibrary.GetBook(currentBook).SaveBook();
+        mBookLibrary.GenerateSettingsFile(); // <-- this should be done in datastorage class.
     }
 
     @Override
     public List<Book> GetBooks() {
-        return Books;
+        return mBookLibrary.GetAllBooks();
     }
 
     @Override
     public String ExportBookAsText(int position) {
-        return dataStorage.ExportBookAsText(getBook(position));
+        return mBookLibrary.GetBook(position).ExportToTextFile();
+        // Might want to return a boolean confirmation.
     }
 
     @Override
     public void RebuildBooksXml() {
-        dataStorage.CreateBooksInfo(Books, true);
+        mBookLibrary.GenerateSettingsFile();
     }
 }

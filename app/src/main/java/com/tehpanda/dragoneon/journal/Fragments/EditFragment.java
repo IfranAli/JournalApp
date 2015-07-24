@@ -1,4 +1,4 @@
-package com.tehpanda.dragoneon.journal.View;
+package com.tehpanda.dragoneon.journal.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
 import com.tehpanda.dragoneon.journal.R;
+import com.tehpanda.dragoneon.journal.View.MainActivity;
 
 public class EditFragment extends Fragment {
     // instance of Jcontroller

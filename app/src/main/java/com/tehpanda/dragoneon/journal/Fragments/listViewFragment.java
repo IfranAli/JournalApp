@@ -1,4 +1,4 @@
-package com.tehpanda.dragoneon.journal.View;
+package com.tehpanda.dragoneon.journal.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +23,7 @@ import com.tehpanda.dragoneon.journal.Model.JournalEntry;
 import com.tehpanda.dragoneon.journal.Model.Note;
 import com.tehpanda.dragoneon.journal.Model.SharedPrefMgr;
 import com.tehpanda.dragoneon.journal.R;
+import com.tehpanda.dragoneon.journal.View.MainActivity;
 
 public class listViewFragment extends Fragment {;
     private ArrayAdapter<Note> adapter; // Adapter.

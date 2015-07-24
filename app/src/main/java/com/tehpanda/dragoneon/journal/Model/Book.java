@@ -3,11 +3,13 @@ package com.tehpanda.dragoneon.journal.Model;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Book {
-    private final DataStorage mDataStorage;
+    private final IDataStorage mDataStorage;
     private String mFileName;
     private String mBookName;
     private ArrayList<Note> mNotes;
@@ -16,27 +18,30 @@ public class Book {
     //Todo: Clean up this class, fix constructor member initialization.
     //Todo: Check if fileName exists.
     // Ctor for creating a new book.
-    public Book(String bookName){
+    public Book(String bookName, IDataStorage dataStorage){
+        this.mDataStorage = dataStorage;
         this.setFileName(generateFileName(bookName));
         this.setBookName(bookName);
-        this.mDataStorage = DataStorage.GetInstance();
         mNotes = new ArrayList<Note>();
     }
     // Ctor for restoring created Book from DB.
-    public Book(String fileName, String bookName) {
+    public Book(String fileName, String bookName, IDataStorage dataStorage) {
+        this(bookName, dataStorage);
         this.setFileName(fileName);
-        this.setBookName(bookName);
-        this.mDataStorage = DataStorage.GetInstance();
     }
     // Ctor for restoring created Book from DB.
-    public Book(String fileName, String bookName, int totalNotes) {
-        this(fileName, bookName);
+    public Book(String fileName, String bookName, int totalNotes, IDataStorage dataStorage) {
+        this(fileName, bookName, dataStorage);
         this.mTotalNotes = totalNotes;
     }
 
     public void AddEntry(String title, String data, String date){
         JournalEntry journal = new JournalEntry(title, data, date);
         mNotes.add(journal);
+        mTotalNotes++;
+    }
+    public void AddNewNote(String title, String data) {
+        mNotes.add(new JournalEntry(title, data, currDateFormatted()));
         mTotalNotes++;
     }
     public void Delete(int index){
@@ -49,7 +54,7 @@ public class Book {
     }
 
     public List<Note> getListOfEntries(){
-        if(mNotes == null){
+        if(mNotes == null || mNotes.isEmpty()){
             try {
                 LoadBook();
             } catch (FileNotFoundException e) {
@@ -57,6 +62,10 @@ public class Book {
             }
         }
         return mNotes;
+    }
+    // Current Date formatted for saving.
+    private static String currDateFormatted(){
+        return new SimpleDateFormat("dd:MM:yyyy:HH:mm:s").format(Calendar.getInstance().getTime());
     }
 
     public int getTotalNotes() {
@@ -80,10 +89,15 @@ public class Book {
         mBookName = bookName;
     }
 
+    // Export
+    public String ExportToTextFile() {
+        return mDataStorage.ExportBookAsText(this);
+    }
+
     // Save Load
     public void SaveBook(){
         try {
-            mDataStorage.SaveBook(mNotes, mFileName);
+            mDataStorage.SaveBooks(mNotes, mFileName);
         } catch (Exception e) {
             Log.d("ERROR", e.getMessage());
         }
@@ -93,7 +107,7 @@ public class Book {
             mNotes = new ArrayList<>();
         }
         mNotes.clear();
-        mNotes.addAll(mDataStorage.loadBook(getFileName()));
+        mNotes.addAll(mDataStorage.GetBook(getFileName()));
     }
 
     public static final int MAX_LENGTH = 10;

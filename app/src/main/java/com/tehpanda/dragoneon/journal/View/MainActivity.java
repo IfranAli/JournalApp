@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Controller.JournalController;
+import com.tehpanda.dragoneon.journal.Fragments.EditFragment;
+import com.tehpanda.dragoneon.journal.Fragments.Fragment_BookListView;
+import com.tehpanda.dragoneon.journal.Fragments.Fragment_NavDrawer;
+import com.tehpanda.dragoneon.journal.Fragments.listViewFragment;
 import com.tehpanda.dragoneon.journal.R;
 
 
@@ -23,7 +27,7 @@ public class MainActivity extends ActionBarActivity implements Fragment_BookList
     public EditFragment fragment_editFrag;
     public IJournalController iJournalController = JournalController.GetInstance();
 
-    ViewPager viewPager = null;
+    public ViewPager viewPager = null;
     private int pages;
 
     private Toolbar toolbar;
