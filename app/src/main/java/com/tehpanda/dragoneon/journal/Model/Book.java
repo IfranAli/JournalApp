@@ -49,6 +49,10 @@ public class Book {
         mTotalNotes--;
     }
 
+    public void SetEntry(int index, Note n) {
+        mNotes.set(index, n);
+    }
+
     public Note GetEntry(int index){
         return mNotes.get(index);
     }

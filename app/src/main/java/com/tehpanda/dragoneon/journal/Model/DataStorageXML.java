@@ -204,6 +204,11 @@ public class DataStorageXML extends DataStorage implements IDataStorage {
         saveDocument(document, "Books.xml", journals);
     }
 
+    @Override
+    public JournalEncodedEntry GetProtectedNote(Note n) {
+        return null;
+    }
+
     // Returns a Document Object.
     private Document newDocument(){
         try {

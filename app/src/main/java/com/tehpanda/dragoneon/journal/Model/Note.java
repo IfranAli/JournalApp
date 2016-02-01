@@ -57,6 +57,9 @@ public abstract class Note implements IJournalEntry {
         return getPreviewText(title, 50);
     }
 
+    public String GetDateUnformatted() {
+        return this.date.toString();
+    }
     public String GetDay() {
         return String.valueOf(date.GetDay());
     }

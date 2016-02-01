@@ -64,4 +64,8 @@ public class JournalEncodedEntry extends Note implements IJournalEntry {
         }
         return "##Encrypted##";
     }
+
+    public void RemovePassword() {
+        isEncrypt = false;
+    }
 }

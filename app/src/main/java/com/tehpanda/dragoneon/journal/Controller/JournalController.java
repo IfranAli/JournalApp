@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.tehpanda.dragoneon.journal.Model.Book;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
+import com.tehpanda.dragoneon.journal.Model.JournalEncodedEntry;
 import com.tehpanda.dragoneon.journal.Model.Note;
 
 import java.util.List;
@@ -51,6 +52,14 @@ public class JournalController implements IJournalController {
     public IJournalEntry getEntry(int currentBook, int index) {
         //return Books.get(currentBook).GetEntry(index);
         return mBookLibrary.GetBook(currentBook).GetEntry(index);
+    }
+    // Convert to password protected note.
+    @Override
+    public JournalEncodedEntry makePasswordProtected(int currentBook, int position) {
+        Note e = mBookLibrary.GetBook(currentBook).GetEntry(position);
+        JournalEncodedEntry ee = mBookLibrary.getmDataStorage().GetProtectedNote(e);
+        mBookLibrary.GetBook(currentBook).SetEntry(position, ee);
+        return ee;
     }
     // Get all notes from specified book.
     @Override

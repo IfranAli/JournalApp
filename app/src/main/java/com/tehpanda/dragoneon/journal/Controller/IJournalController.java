@@ -2,6 +2,7 @@ package com.tehpanda.dragoneon.journal.Controller;
 
 import com.tehpanda.dragoneon.journal.Model.Book;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
+import com.tehpanda.dragoneon.journal.Model.JournalEncodedEntry;
 import com.tehpanda.dragoneon.journal.Model.Note;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public interface IJournalController {
 
     // Get note from a book.
     IJournalEntry getEntry(int currentBook, int index);
+
+    // Make note into one that's password compatible.
+    JournalEncodedEntry makePasswordProtected(int currentBook, int position);
 
     boolean HasBooks();
 

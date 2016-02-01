@@ -57,4 +57,9 @@ public class BookLibrary {
     public void GenerateSettingsFile() {
         mDataStorage.CreateIndexFile(mBooks, false);
     }
+
+    // Jury-rigging.
+    public IDataStorage getmDataStorage() {
+        return mDataStorage;
+    }
 }

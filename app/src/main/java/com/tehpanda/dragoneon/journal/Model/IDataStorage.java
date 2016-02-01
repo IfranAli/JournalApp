@@ -12,4 +12,6 @@ public interface IDataStorage {
 
     void RemoveBook(Book book);
     String ExportBookAsText(Book book);
+
+    JournalEncodedEntry GetProtectedNote(Note n);
 }

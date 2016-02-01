@@ -132,7 +132,7 @@ public class DataStorageJson extends DataStorage implements IDataStorage {
             e.printStackTrace();
         }
 
-        String jsoncoded = jsonob.toString();
+        //String jsoncoded = jsonob.toString();
     }
 
     @Override
@@ -219,5 +219,14 @@ public class DataStorageJson extends DataStorage implements IDataStorage {
         } else {
             return new JournalEntry(title, data, date);
         }
+    }
+
+    @Override
+    public JournalEncodedEntry GetProtectedNote(Note n) {
+        JournalEncodedEntry je = new JournalEncodedEntry(n.title, n.data, n.date.toString());
+        je.decryptionkey = "abcd";
+        je.isEncrypt = true;
+        je.modified = true;
+        return je;
     }
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.tehpanda.dragoneon.journal.Controller.IJournalController;
 import com.tehpanda.dragoneon.journal.Model.IJournalEntry;
+import com.tehpanda.dragoneon.journal.Model.JournalEncodedEntry;
 import com.tehpanda.dragoneon.journal.R;
 import com.tehpanda.dragoneon.journal.View.MainActivity;
 
@@ -23,6 +24,8 @@ public class EditFragment extends Fragment {
     private IJournalController _JournalController;
     // instance of current entry
     private IJournalEntry entry;
+
+    private boolean saveAnyway = false;
 
     // Index of current book and position
     private boolean initialized;
@@ -48,8 +51,15 @@ public class EditFragment extends Fragment {
     //region ActionBar Items
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Enable menu items.
+        inflater.inflate(R.menu.editfragment_actions, menu);
+
         if(entry != null && entry.isEncrypted()) {
-            inflater.inflate(R.menu.editfragment_actions, menu);
+            // Hide the lock button.
+            menu.findItem(R.id.action_lock).setVisible(false);
+        } else {
+            // Hide the unlock button.
+            menu.findItem(R.id.action_unlock).setVisible(false);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -58,8 +68,22 @@ public class EditFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_lock:
-                Toast.makeText(getActivity().getApplicationContext(), entry.isEncrypted().toString(),Toast.LENGTH_SHORT).show();
-                return  true;
+                // Testing stuff. Will fix methods later.
+                entry = _JournalController.makePasswordProtected(currentBook, position);
+                Toast.makeText(getActivity().getApplicationContext(), "Protected!",Toast.LENGTH_SHORT).show();
+                LoadNewEntry(currentBook, position, false);
+                saveAnyway = true;
+                getActivity().invalidateOptionsMenu();
+                return true;
+
+            case R.id.action_unlock:
+                if (((JournalEncodedEntry)entry).decryptionkey != null) {
+                    saveAnyway = true;
+                    ((JournalEncodedEntry)entry).RemovePassword();
+                    getActivity().invalidateOptionsMenu();
+                    Toast.makeText(getActivity().getApplicationContext(), "Removed Password!", Toast.LENGTH_SHORT).show();
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -111,7 +135,6 @@ public class EditFragment extends Fragment {
     }
 
     public void SaveChanges(){
-        //Toast.makeText(getActivity().getApplicationContext(), "Saving Changes", Toast.LENGTH_SHORT).show();
         if(edit_notyetloaded.isShown()) {
             // Prevents overwriting entry 0,0
             return;
@@ -122,36 +145,21 @@ public class EditFragment extends Fragment {
             this.entry = _JournalController.getEntry(currentBook, position);
         }
         try {
-            Boolean modified = false;
             String title = editTitle.getText().toString();
             String data = editData.getText().toString();
 
-            String mdata = entry.getData();
-            String mtitle = entry.getTitle();
-
-            if(data.equals(mdata)) {
-                modified = false;
-            } else  {
-                modified = true;
-            }
-            if (modified != true) {
-                if(!title.equals(mtitle)) {
-                    modified = true;
-                } else {
-                    modified = false;
-                }
-            }
-
-            if(modified) {
-                Log.e("Modified", "Saving");
+            // Check if the note was modified.
+            if (!(data.equals(entry.getData()) || title.equals(entry.getTitle())) || saveAnyway ) {
+                Log.e("Modified", "Saving..");
                 entry.setData(data);
                 entry.setTitle(title);
                 _JournalController.saveXML(currentBook);
+                Toast.makeText(getActivity().getApplicationContext(), "Saved.", Toast.LENGTH_SHORT).show();
             } else {
                 Log.e("Modified", "False CPU cycle saved! :D");
             }
         } catch (Exception ex) {
-            //Log.e("ERROR", ex.getMessage());
+            Log.e("ERROR", ex.getMessage());
         }
     }
 

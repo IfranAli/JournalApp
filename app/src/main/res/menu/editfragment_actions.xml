@@ -5,6 +5,12 @@
         android:icon="@android:drawable/ic_lock_lock"
         android:title="lock"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_unlock"
+        android:icon="@android:drawable/ic_lock_power_off"
+        android:title="lock"
+        app:showAsAction="ifRoom" />
+
     <!-- Settings, should always be in the overflow -->
 <!--    <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
